@@ -47,13 +47,6 @@ JWT (JSON Web Tokens), OTP via Twilio API, OAuth (Google/GitHub/Facebook)
 * MongoDB schemas for user and OTP data management
 
 ---
-
-##  Demo
-
-(Add screenshots here – login page, swipe UI, wardrobe, etc.)
-
----
-
 ##  Future Improvements
 
 * Integrate ML-based recommendation system
