@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sèvres — Your Personal Style House</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ivory:#FAF8F4;
+  --charcoal:#1C1C1E;
+  --warm-mid:#4A4540;
+  --warm-border:#E0D8CE;
+  --blush:#C9A99A;
+  --gold:#B8975A;
+  --gold-light:#F7F1E6;
+  --error:#A0493A;
+  --success:#4A7C59;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Jost','Segoe UI',sans-serif;
+}
+body{font-family:var(--sans);background:var(--ivory);min-height:100vh;color:var(--charcoal);overflow-x:hidden}
+
+.page{display:none;width:100%;min-height:100vh}
+.page.active{display:flex}
+
+#introPage{
+  flex-direction:column;justify-content:center;align-items:center;
+  background:var(--charcoal);color:var(--ivory);
+  position:relative;overflow:hidden;text-align:center;padding:40px;
+}
+#introPage::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 30%,#2e2825,transparent),
+             radial-gradient(ellipse 60% 80% at 80% 80%,#1a1614,transparent);
+  z-index:0;
+}
+.intro-inner{position:relative;z-index:1;max-width:640px}
+.intro-eyebrow{font-size:11px;letter-spacing:7px;color:var(--gold);text-transform:uppercase;font-weight:300;margin-bottom:28px;opacity:0;animation:fadeUp .8s .2s forwards}
+.intro-logo{font-family:var(--serif);font-size:80px;font-weight:300;font-style:italic;line-height:1;margin-bottom:10px;opacity:0;animation:fadeUp .8s .4s forwards}
+.intro-tagline{font-size:13px;letter-spacing:3px;text-transform:uppercase;font-weight:300;margin-bottom:48px;opacity:0;animation:fadeUp .8s .6s forwards}
+.intro-beats{margin-bottom:56px;opacity:0;animation:fadeUp .9s .8s forwards}
+.intro-beat{font-family:var(--serif);font-size:26px;font-weight:300;font-style:italic;color:var(--ivory);line-height:1.6}
+.intro-beat span{color:var(--gold)}
+.intro-divider{width:1px;height:48px;background:var(--gold);opacity:0;margin:0 auto 48px;animation:fadeIn 1s 1.2s forwards}
+.intro-cta{display:inline-block;padding:18px 56px;border:1px solid rgba(184,151,90,.5);color:var(--gold);font-family:var(--sans);font-size:11px;letter-spacing:5px;text-transform:uppercase;font-weight:400;cursor:pointer;background:transparent;transition:all .4s;opacity:0;animation:fadeUp .8s 1.4s forwards}
+.intro-cta:hover{background:var(--gold);color:var(--charcoal);border-color:var(--gold)}
+.intro-scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);font-size:9px;letter-spacing:4px;color:rgba(255,255,255,.3);text-transform:uppercase;font-weight:300;opacity:0;animation:fadeIn 1s 2s forwards}
+
+#loginPage{flex-direction:row}
+.login-left{flex:1.1;background:var(--charcoal);display:flex;flex-direction:column;justify-content:center;align-items:center;color:var(--ivory);padding:60px;text-align:center;position:relative;overflow:hidden}
+.login-left::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,#2e2825,var(--charcoal) 70%);z-index:0}
+.login-brand{position:relative;z-index:1}
+.brand-mark{font-size:10px;letter-spacing:7px;color:var(--gold);font-weight:300;text-transform:uppercase;margin-bottom:24px}
+.login-left h1{font-family:var(--serif);font-size:64px;font-weight:300;font-style:italic;margin-bottom:16px;line-height:1}
+.login-left .tagline{font-size:13px;font-weight:300;letter-spacing:2px;opacity:.55;max-width:300px;line-height:2.2;text-transform:uppercase}
+.deco-line{width:1px;height:56px;background:var(--gold);opacity:.4;margin:32px auto}
+
+.login-right{flex:1;background:white;display:flex;justify-content:center;align-items:center;padding:60px 50px;overflow-y:auto}
+.login-form{width:100%;max-width:380px}
+.welcome-label{font-size:10px;letter-spacing:5px;color:var(--gold);font-weight:400;text-transform:uppercase;margin-bottom:10px}
+.login-form h2{font-family:var(--serif);font-size:38px;font-weight:300;color:var(--charcoal);margin-bottom:4px}
+.form-subtitle{font-size:13px;color:var(--warm-mid);letter-spacing:1px;margin-bottom:32px;font-weight:300}
+
+.auth-toggle{display:flex;margin-bottom:32px;border-bottom:1px solid var(--warm-border)}
+.auth-tab{padding:13px 20px;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer;color:#888;font-family:var(--sans);font-size:11px;font-weight:400;letter-spacing:3px;text-transform:uppercase;transition:all .3s}
+.auth-tab.active{color:var(--charcoal);border-bottom-color:var(--gold)}
+.auth-section{display:none}.auth-section.active{display:block}
+
+.form-group{margin-bottom:24px}
+.form-group label{display:block;margin-bottom:10px;color:var(--warm-mid);font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:400}
+.form-group input{width:100%;padding:14px 0;border:none;border-bottom:1.5px solid var(--warm-border);background:transparent;font-size:15px;font-family:var(--sans);color:var(--charcoal);font-weight:300;transition:border-color .3s;outline:none}
+.form-group input:focus{border-bottom-color:var(--charcoal)}
+.form-group input::placeholder{color:#bbb;font-weight:300;font-size:14px}
+
+.primary-btn{width:100%;padding:17px;background:var(--charcoal);color:var(--ivory);border:none;font-family:var(--sans);font-size:11px;letter-spacing:5px;text-transform:uppercase;font-weight:400;cursor:pointer;transition:all .3s;margin-top:8px}
+.primary-btn:hover:not(:disabled){background:#2e2825;letter-spacing:6px}
+.primary-btn:disabled{opacity:.5;cursor:not-allowed}
+
+.divider{text-align:center;margin:28px 0;position:relative}
+.divider::before,.divider::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:var(--warm-border)}
+.divider::before{left:0}.divider::after{right:0}
+.divider span{font-size:10px;letter-spacing:3px;color:#bbb;text-transform:uppercase;background:white;padding:0 14px;position:relative;z-index:1}
+
+.social-buttons{display:flex;gap:10px;flex-wrap:wrap}
+.social-btn{flex:1;min-width:160px;padding:13px;border:1px solid var(--warm-border);background:white;font-family:var(--sans);font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;color:var(--warm-mid);transition:all .3s;font-weight:400}
+.social-btn:hover:not(:disabled){border-color:var(--charcoal);color:var(--charcoal)}
+.social-btn:disabled{opacity:.5;cursor:not-allowed}
+.error-msg{color:var(--error);margin-top:14px;font-size:13px;display:none;font-weight:300;letter-spacing:.3px}
+.success-msg{color:var(--success);margin-top:14px;font-size:13px;display:none;font-weight:300;letter-spacing:.3px}
+
+.otp-section{display:none}.otp-section.active{display:block}
+.otp-input-group{display:flex;gap:8px;margin:24px 0}
+.otp-digit{width:50px;height:50px;border:1px solid var(--warm-border);text-align:center;font-size:20px;font-weight:500;cursor:text}
+.otp-digit:focus{border-color:var(--charcoal);outline:none}
+
+#app{flex-direction:column;height:100vh}
+.app-header{background:white;padding:0 40px;border-bottom:1px solid var(--warm-border);display:flex;justify-content:space-between;align-items:center;height:66px;flex-shrink:0}
+.header-brand .brand-label{font-size:9px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;font-weight:400;line-height:1}
+.header-brand h2{font-family:var(--serif);font-size:28px;font-weight:300;font-style:italic;color:var(--charcoal);line-height:1.2}
+.header-right{display:flex;align-items:center;gap:24px}
+.greeting{font-size:12px;letter-spacing:2px;color:var(--warm-mid);text-transform:uppercase;font-weight:300}
+.streak-badge{padding:6px 16px;background:var(--gold-light);border:1px solid rgba(184,151,90,.3);font-size:11px;letter-spacing:1px;color:var(--gold);font-weight:400}
+.logout-btn{padding:8px 20px;border:1px solid var(--warm-border);background:transparent;font-family:var(--sans);font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;color:var(--warm-mid);transition:all .3s;font-weight:400}
+.logout-btn:hover{border-color:var(--charcoal);color:var(--charcoal)}
+
+.app-content{display:flex;flex:1;overflow:hidden;height:calc(100vh - 66px)}
+.sidebar{width:220px;background:white;border-right:1px solid var(--warm-border);padding:32px 0;flex-shrink:0;display:flex;flex-direction:column}
+.sidebar-label{font-size:9px;letter-spacing:4px;color:var(--blush);text-transform:uppercase;padding:0 24px;margin-bottom:14px;font-weight:400}
+.nav-btn{width:100%;padding:15px 24px;border:none;background:transparent;cursor:pointer;font-family:var(--sans);font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--warm-mid);transition:all .25s;text-align:left;font-weight:400;border-left:2px solid transparent;display:flex;align-items:center;gap:14px}
+.nav-btn svg{width:15px;height:15px;flex-shrink:0;opacity:.5}
+.nav-btn.active{color:var(--charcoal);border-left-color:var(--gold);background:var(--ivory)}
+.nav-btn:not(.active):hover{color:var(--charcoal);background:var(--ivory)}
+.sidebar-footer{margin-top:auto;padding:24px;border-top:1px solid var(--warm-border)}
+.sidebar-footer p{font-size:11px;color:#aaa;line-height:2;font-weight:300;font-style:italic;font-family:var(--serif)}
+
+.main-content{flex:1;overflow-y:auto;padding:40px}
+.tab{display:none}.tab.active{display:block}
+
+.swipe-container{max-width:460px;margin:0 auto}
+.swipe-label{font-size:9px;letter-spacing:6px;color:var(--gold);text-transform:uppercase;text-align:center;margin-bottom:20px;font-weight:400}
+.swipe-progress{display:flex;justify-content:center;align-items:center;gap:8px;margin-bottom:24px}
+.progress-text{font-size:11px;color:var(--warm-mid);letter-spacing:2px;text-transform:uppercase;font-weight:300}
+
+.card-stack{position:relative;height:580px;margin-bottom:0}
+.product-card{position:absolute;inset:0;background:white;border:1px solid var(--warm-border);overflow:hidden;cursor:grab;user-select:none;transition:transform .15s ease,box-shadow .15s ease;transform-origin:bottom center}
+.product-card:active{cursor:grabbing}
+.product-card.is-leaving-right{animation:swipeRight .4s ease forwards}
+.product-card.is-leaving-left{animation:swipeLeft .4s ease forwards}
+.product-card.liked-flash{animation:likedFlash .4s ease}
+.card-behind{transform:scale(.96) translateY(12px);z-index:0;filter:brightness(.96)}
+.card-front{z-index:1}
+
+.product-image-wrap{position:relative;height:340px;overflow:hidden;background:#f0ebe4}
+.product-image{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease;opacity:0}
+.product-image.loaded{opacity:1}
+.product-card:hover .product-image{transform:scale(1.03)}
+.like-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;pointer-events:none}
+.like-overlay.show-like{opacity:1;background:rgba(184,151,90,.15)}
+.like-overlay.show-pass{opacity:1;background:rgba(160,73,58,.08)}
+.overlay-text{font-family:var(--serif);font-size:44px;font-style:italic;font-weight:300;border:2px solid currentColor;padding:8px 24px}
+.overlay-text.like-text{color:var(--gold);border-color:var(--gold);transform:rotate(-15deg)}
+.overlay-text.pass-text{color:var(--error);border-color:var(--error);transform:rotate(15deg)}
+
+.product-info{padding:24px 24px 0}
+.product-category-tag{font-size:9px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;font-weight:400}
+.product-info h3{font-family:var(--serif);font-size:24px;font-weight:400;color:var(--charcoal);margin-bottom:5px;line-height:1.2}
+.product-price{font-size:13px;color:var(--warm-mid);font-weight:300;margin-bottom:4px;letter-spacing:.5px}
+.product-vibe{font-size:11px;letter-spacing:1.5px;color:#888;margin-bottom:0;text-transform:uppercase;font-weight:300}
+
+.action-bar{display:flex;border-top:1px solid var(--warm-border);margin:20px -24px 0}
+.action-btn{flex:1;padding:18px 8px;border:none;background:white;cursor:pointer;font-family:var(--sans);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;font-weight:400;transition:all .25s;display:flex;flex-direction:column;align-items:center;gap:6px}
+.action-btn:not(:last-child){border-right:1px solid var(--warm-border)}
+.action-btn svg{width:16px;height:16px}
+.pass-btn{color:var(--error)}.pass-btn:hover{background:#fff5f3}
+.shop-btn-inline{color:var(--warm-mid)}.shop-btn-inline:hover{background:var(--gold-light)}
+.save-btn{background:var(--charcoal);color:white}.save-btn:hover{background:#2e2825}
+.action-btn-label{font-size:9px;letter-spacing:3px}
+
+.section-header{margin-bottom:36px}
+.section-tag{font-size:9px;letter-spacing:6px;color:var(--gold);text-transform:uppercase;font-weight:400;margin-bottom:10px}
+.section-header h2{font-family:var(--serif);font-size:40px;font-weight:300;font-style:italic;color:var(--charcoal);margin-bottom:6px}
+.section-header p{font-size:13px;letter-spacing:1px;color:var(--warm-mid);font-weight:300}
+
+.closet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:3px}
+.closet-item{aspect-ratio:.8;overflow:hidden;position:relative;cursor:pointer;background:#f0ebe4}
+.closet-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;opacity:0}
+.closet-item img.loaded{opacity:1}
+.closet-item:hover img{transform:scale(1.05)}
+.closet-item-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(28,28,30,.75));padding:20px 12px 10px;opacity:0;transition:opacity .3s}
+.closet-item:hover .closet-item-overlay{opacity:1}
+.closet-item-name{color:white;font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:300}
+.no-items{text-align:center;padding:72px 20px}
+.no-items-icon{font-family:var(--serif);font-size:52px;font-style:italic;color:var(--blush);margin-bottom:16px}
+.no-items p{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--warm-mid);font-weight:300}
+
+.avatar-container{max-width:540px;margin:0 auto;background:white;border:1px solid var(--warm-border);padding:48px;text-align:center}
+.avatar-tag{font-size:9px;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:16px;font-weight:400}
+.avatar-container h2{font-family:var(--serif);font-size:38px;font-weight:300;font-style:italic;color:var(--charcoal);margin-bottom:32px}
+.celebrity-image{width:190px;height:250px;object-fit:cover;margin:0 auto 20px;display:block;border:1px solid var(--warm-border);opacity:0}
+.celebrity-image.loaded{opacity:1}
+.celebrity-name{font-family:var(--serif);font-size:30px;font-weight:300;font-style:italic;color:var(--charcoal);margin-bottom:4px}
+.celebrity-subtitle{font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:28px}
+.vibe-divider{width:40px;height:1px;background:var(--gold);margin:24px auto}
+.vibe-list{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.vibe-tag{border:1px solid var(--warm-border);color:var(--warm-mid);padding:8px 18px;font-size:10px;letter-spacing:2px;text-transform:uppercase}
+
+.vibe-container{max-width:540px;margin:0 auto}
+.vibe-empty-state{background:white;border:1px solid var(--warm-border);padding:56px;text-align:center}
+.vibe-empty-heading{font-family:var(--serif);font-size:40px;font-style:italic;color:var(--blush);margin-bottom:14px}
+.vibe-empty-sub{font-size:12px;letter-spacing:2px;color:#aaa;text-transform:uppercase;font-weight:300}
+.vibe-hero{background:var(--charcoal);color:var(--ivory);padding:48px;text-align:center}
+.vibe-hero-tag{font-size:9px;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:16px;font-weight:400}
+.vibe-dominant{font-family:var(--serif);font-size:46px;font-weight:300;font-style:italic;margin-bottom:14px;line-height:1.1}
+.vibe-descriptor{font-size:13px;letter-spacing:1.5px;opacity:.6;font-weight:300;line-height:2;max-width:400px;margin:0 auto}
+.vibe-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:2px;margin-top:2px}
+.stat-box{background:white;border:1px solid var(--warm-border);padding:28px 20px;text-align:center}
+.stat-number{font-family:var(--serif);font-size:40px;font-weight:300;color:var(--charcoal);margin-bottom:6px}
+.stat-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--warm-mid);font-weight:400}
+
+.profile-card{background:white;border:1px solid var(--warm-border);padding:48px;max-width:540px;margin:0 auto}
+.profile-avatar-circle{width:72px;height:72px;border-radius:50%;background:var(--charcoal);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-family:var(--serif);font-size:26px;font-style:italic;color:var(--gold)}
+.profile-name-display{font-family:var(--serif);font-size:32px;font-weight:300;font-style:italic;color:var(--charcoal);text-align:center;margin-bottom:4px}
+.profile-member-tag{font-size:9px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;text-align:center;margin-bottom:36px}
+.profile-row{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--warm-border)}
+.profile-row:last-child{border-bottom:none}
+.profile-row-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--warm-mid);font-weight:400}
+.profile-row-value{font-size:15px;color:var(--charcoal);font-weight:300}
+.profile-row-value.gold{color:var(--gold);font-family:var(--serif);font-style:italic;font-size:18px}
+
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--charcoal);color:var(--ivory);padding:14px 32px;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:400;border-left:3px solid var(--gold);transition:transform .4s cubic-bezier(.16,1,.3,1);z-index:9999;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.error{border-left-color:var(--error)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes swipeRight{to{transform:translateX(130%) rotate(20deg);opacity:0}}
+@keyframes swipeLeft{to{transform:translateX(-130%) rotate(-20deg);opacity:0}}
+@keyframes likedFlash{
+  0%{box-shadow:inset 0 0 0 3px var(--gold)}
+  50%{box-shadow:inset 0 0 0 3px var(--gold),0 0 40px rgba(184,151,90,.3)}
+  100%{box-shadow:none}
+}
+@keyframes pageSlide{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.tab.active{animation:pageSlide .35s ease}
+</style>
+</head>
+<body>
+
+<!-- INTRO PAGE -->
+<div class="page active" id="introPage">
+  <div class="intro-inner">
+    <div class="intro-eyebrow">Est. 2024 &nbsp;&middot;&nbsp; Personal Style</div>
+    <div class="intro-logo">Sèvres</div>
+    <div class="intro-tagline">Your personal house of style</div>
+    <div class="intro-beats">
+      <div class="intro-beat">Swipe through curated pieces.</div>
+      <div class="intro-beat">Build your <span>aesthetic.</span></div>
+      <div class="intro-beat">Discover who you dress like.</div>
+    </div>
+    <div class="intro-divider"></div>
+    <button class="intro-cta" id="beginBtn">Begin your edit</button>
+  </div>
+  <div class="intro-scroll-hint">Tap anywhere to enter</div>
+</div>
+
+<!-- LOGIN PAGE -->
+<div class="page" id="loginPage">
+  <div class="login-left">
+    <div class="login-brand">
+      <div class="brand-mark">Est. 2024 &nbsp;&middot;&nbsp; Curated Style</div>
+      <h1>Sèvres</h1>
+      <div class="deco-line"></div>
+      <p class="tagline">Your personal house of style. Discover pieces that speak to who you are.</p>
+    </div>
+  </div>
+  <div class="login-right">
+    <div class="login-form">
+      <div class="welcome-label">Welcome</div>
+      <h2>Enter your world</h2>
+      <p class="form-subtitle">Your curation awaits</p>
+      <div class="auth-toggle">
+        <button class="auth-tab active" data-auth="loginSection">Sign in</button>
+        <button class="auth-tab" data-auth="registerSection">New member</button>
+      </div>
+
+      <!-- LOGIN -->
+      <div id="loginSection" class="auth-section active">
+        <div class="form-group"><label>Username</label><input type="text" id="loginEmail" placeholder="Your username"></div>
+        <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="Your password"></div>
+        <button class="primary-btn" id="loginBtn">Enter</button>
+        <div class="divider"><span>or</span></div>
+        <div class="social-buttons">
+          <button class="social-btn" id="phoneBtn">Phone OTP</button>
+        </div>
+        <div id="loginError" class="error-msg"></div>
+      </div>
+
+      <!-- REGISTER -->
+      <div id="registerSection" class="auth-section">
+        <div class="form-group"><label>Full name</label><input type="text" id="registerName" placeholder="As you'd like to be addressed"></div>
+        <div class="form-group"><label>Username</label><input type="text" id="registerUsername" placeholder="Your unique handle"></div>
+        <div class="form-group"><label>Email address</label><input type="email" id="registerEmail" placeholder="Your private email"></div>
+        <div class="form-group"><label>Create password</label><input type="password" id="registerPassword" placeholder="Min. 6 characters"></div>
+        <div class="form-group"><label>Confirm password</label><input type="password" id="registerConfirm" placeholder="Once more, please"></div>
+        <button class="primary-btn" id="registerBtn">Become a member</button>
+        <div class="divider"><span>or</span></div>
+        <div class="social-buttons">
+          <button class="social-btn" id="phoneRegisterBtn">Phone OTP</button>
+        </div>
+        <div id="registerError" class="error-msg"></div>
+      </div>
+
+      <!-- PHONE OTP -->
+      <div id="phoneOtpSection" class="auth-section otp-section">
+        <div class="form-group"><label>Phone number</label><input type="tel" id="phoneNumber" placeholder="+91 98765 43210"></div>
+        <button class="primary-btn" id="sendOtpBtn">Send OTP</button>
+        <div id="otpInputSection" style="display:none;margin-top:24px">
+          <div class="form-group"><label>Enter 6-digit OTP</label></div>
+          <div class="otp-input-group" id="otpInputs"></div>
+          <button class="primary-btn" id="verifyOtpBtn">Verify OTP</button>
+          <button class="social-btn" id="resendOtpBtn" style="margin-top:12px;width:100%">Resend OTP</button>
+        </div>
+        <div id="phoneError" class="error-msg"></div>
+        <div id="phoneSuccess" class="success-msg"></div>
+      </div>
+
+      <button class="social-btn" id="backToLoginBtn" style="display:none;margin-top:12px;width:100%;background:var(--gold-light);color:var(--warm-mid)">Back to login</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="page" id="app">
+  <div class="app-header">
+    <div class="header-brand">
+      <div class="brand-label">Your style house</div>
+      <h2>Sèvres</h2>
+    </div>
+    <div class="header-right">
+      <span class="greeting" id="headerGreeting"></span>
+      <div class="streak-badge" id="streakBadge" style="display:none"></div>
+      <button class="logout-btn" id="logoutBtn">Leave</button>
+    </div>
+  </div>
+
+  <div class="app-content">
+    <div class="sidebar">
+      <div class="sidebar-label">Navigate</div>
+      <button class="nav-btn active" data-tab="swipe">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+        Discover
+      </button>
+      <button class="nav-btn" data-tab="closet">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>
+        My Wardrobe
+      </button>
+      <button class="nav-btn" data-tab="avatar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Style Twin
+      </button>
+      <button class="nav-btn" data-tab="vibe">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>
+        My Aesthetic
+      </button>
+      <button class="nav-btn" data-tab="profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        My Profile
+      </button>
+      <div class="sidebar-footer">
+        <p>Every swipe refines your curation. Take your time.</p>
+      </div>
+    </div>
+
+    <div class="main-content">
+
+      <!-- DISCOVER -->
+      <div id="swipe" class="tab active">
+        <div class="swipe-container">
+          <div class="swipe-label">Today's Edit</div>
+          <div class="swipe-progress">
+            <span class="progress-text" id="swipeCount">Loading your edit…</span>
+          </div>
+          <div class="card-stack">
+            <div class="product-card card-behind" id="cardBehind">
+              <div class="product-image-wrap"><div class="product-image" style="background:#f0ebe4"></div></div>
+            </div>
+            <div class="product-card card-front" id="cardFront">
+              <div class="product-image-wrap">
+                <img id="itemImg" class="product-image" alt="Curated piece" src="">
+                <div class="like-overlay" id="likeOverlay">
+                  <div class="overlay-text like-text" id="overlayLike" style="display:none">Save</div>
+                  <div class="overlay-text pass-text" id="overlayPass" style="display:none">Pass</div>
+                </div>
+              </div>
+              <div class="product-info">
+                <div class="product-category-tag" id="itemCategory"></div>
+                <h3 id="itemName">Curating your edit…</h3>
+                <div class="product-price" id="itemPrice"></div>
+                <p class="product-vibe" id="itemVibe"></p>
+                <div class="action-bar">
+                  <button class="action-btn pass-btn" id="passBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    <span class="action-btn-label">Pass</span>
+                  </button>
+                  <button class="action-btn shop-btn-inline" id="shopBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    <span class="action-btn-label">View</span>
+                  </button>
+                  <button class="action-btn save-btn" id="likeBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                    <span class="action-btn-label">Save</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WARDROBE -->
+      <div id="closet" class="tab">
+        <div class="section-header">
+          <div class="section-tag">Curated by you</div>
+          <h2>My Wardrobe</h2>
+          <p id="closetCount">Your saved pieces</p>
+        </div>
+        <div id="closetContent"></div>
+        <div id="closetEmpty" class="no-items" style="display:none">
+          <div class="no-items-icon">&empty;</div>
+          <p>Your wardrobe is waiting to be filled</p>
+        </div>
+      </div>
+
+      <!-- STYLE TWIN -->
+      <div id="avatar" class="tab">
+        <div class="avatar-container">
+          <div class="avatar-tag">Matched to you</div>
+          <h2>Your Style Twin</h2>
+          <div id="avatarContent">
+            <p style="font-size:13px;letter-spacing:1.5px;color:#aaa;text-transform:uppercase;font-weight:300">Save pieces to reveal your match</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- AESTHETIC -->
+      <div id="vibe" class="tab">
+        <div class="vibe-container">
+          <div id="vibeEmpty" class="vibe-empty-state">
+            <div class="vibe-empty-heading">Your aesthetic</div>
+            <p class="vibe-empty-sub">Save pieces to reveal your signature style</p>
+          </div>
+          <div id="vibeLoaded" style="display:none">
+            <div class="vibe-hero">
+              <div class="vibe-hero-tag">Your signature</div>
+              <div class="vibe-dominant" id="dominantVibeText"></div>
+              <div class="vibe-descriptor" id="vibeDescriptor"></div>
+            </div>
+            <div class="vibe-stats" id="vibeStats"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROFILE -->
+      <div id="profile" class="tab">
+        <div class="profile-card">
+          <div class="profile-avatar-circle" id="profileInitial">S</div>
+          <div class="profile-name-display" id="profileName"></div>
+          <div class="profile-member-tag">Valued Member</div>
+          <div class="profile-row">
+            <span class="profile-row-label">Member since</span>
+            <span class="profile-row-value" id="memberSince"></span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-row-label">Pieces saved</span>
+            <span class="profile-row-value" id="likesCount">0</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-row-label">Swipes today</span>
+            <span class="profile-row-value" id="swipesToday">0</span>
+          </div>
+          <div class="profile-row">
+            <span class="profile-row-label">Membership</span>
+            <span class="profile-row-value gold">Founder</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── STATE ──
+let authToken = localStorage.getItem('sevres_token');
+let username  = localStorage.getItem('sevres_username');
+let userId    = localStorage.getItem('sevres_userId');
+
+let likes = [];
+let currentIndex = 0;
+let products = [];
+
+let swipesToday   = parseInt(localStorage.getItem('sevres_swipes_today') || '0');
+let lastSwipeDate = localStorage.getItem('sevres_swipe_date') || '';
+
+let isDragging = false;
+let dragStartX = 0;
+let otpAttempts = 0;
+
+// ── DEMO USER STORE (localStorage) ──
+function getDemoUsers() {
+  return JSON.parse(localStorage.getItem('sevres_users') || '{}');
+}
+function saveDemoUsers(u) {
+  localStorage.setItem('sevres_users', JSON.stringify(u));
+}
+
+// ── MOCK PRODUCTS ──
+const MOCK_PRODUCTS = [
+  { _id:'1', name:'Classic White Linen Shirt',    category:'fashion',   price:1299,  imageUrl:'https://picsum.photos/seed/shirt1/460/340',    vibe:'Effortlessly elegant'  },
+  { _id:'2', name:'Minimal Gold Hoop Earrings',   category:'beauty',    price:799,   imageUrl:'https://picsum.photos/seed/earring1/460/340',  vibe:'Refined & subtle'      },
+  { _id:'3', name:'Premium Skincare Set',          category:'wellness',  price:2499,  imageUrl:'https://picsum.photos/seed/skincare1/460/340', vibe:'Self-care ritual'      },
+  { _id:'4', name:'Leather Minimalist Loafers',   category:'shoes',     price:3999,  imageUrl:'https://picsum.photos/seed/loafers1/460/340',  vibe:'Timeless & grounded'   },
+  { _id:'5', name:'Black Oversized Blazer',        category:'fashion',   price:4999,  imageUrl:'https://picsum.photos/seed/blazer1/460/340',   vibe:'Power & precision'     },
+  { _id:'6', name:'Silk Slip Dress',               category:'fashion',   price:3499,  imageUrl:'https://picsum.photos/seed/dress1/460/340',    vibe:'Quiet luxury'          },
+  { _id:'7', name:'Leather Crossbody Bag',         category:'fashion',   price:5999,  imageUrl:'https://picsum.photos/seed/bag1/460/340',      vibe:'Understated elegance'  },
+  { _id:'8', name:'Cashmere Turtleneck',           category:'fashion',   price:4299,  imageUrl:'https://picsum.photos/seed/turtle1/460/340',   vibe:'Cocooned in comfort'   },
+  { _id:'9', name:'Retinol Night Serum',           category:'beauty',    price:1899,  imageUrl:'https://picsum.photos/seed/serum1/460/340',    vibe:'Renewal overnight'     },
+  { _id:'10',name:'Suede Chelsea Boots',           category:'shoes',     price:6499,  imageUrl:'https://picsum.photos/seed/boots1/460/340',    vibe:'Grounded authority'    }
+];
+
+// ── API (demo-first, falls back to real backend) ──
+const API_BASE_URL = 'http://localhost:5000/api';
+
+async function apiCall(endpoint, options = {}) {
+  // --- DEMO AUTH INTERCEPTS ---
+  if (endpoint === '/auth/login') {
+    const { username: u, password: p } = JSON.parse(options.body);
+    const users = getDemoUsers();
+    const user = users[u];
+    if (!user || user.password !== p) throw new Error('Invalid username or password');
+    return { token: 'demo-token', user: { username: u, id: u, email: user.email || '' } };
+  }
+
+  if (endpoint === '/auth/register') {
+    const { username: u, email, password, name } = JSON.parse(options.body);
+    const users = getDemoUsers();
+    if (users[u]) throw new Error('Username already taken');
+    users[u] = { password, email, name };
+    saveDemoUsers(users);
+    return { token: 'demo-token', user: { username: u, id: u, email } };
+  }
+
+  if (endpoint === '/auth/send-otp') {
+    return { ok: true };
+  }
+
+  if (endpoint === '/auth/verify-otp') {
+    const { otp } = JSON.parse(options.body);
+    if (otp !== '123456') throw new Error('Invalid OTP. Demo code is 123456');
+    const phone = document.getElementById('phoneNumber').value.trim();
+    const u = 'user_' + phone.replace(/\D/g,'').slice(-6);
+    const users = getDemoUsers();
+    if (!users[u]) { users[u] = { password: '', email: '' }; saveDemoUsers(users); }
+    return { token: 'demo-token', user: { username: u, id: u, email: '' } };
+  }
+
+  if (endpoint === '/likes' && options.method === 'POST') {
+    return { ok: true };
+  }
+
+  if (endpoint.startsWith('/likes/user/')) {
+    const saved = JSON.parse(localStorage.getItem('sevres_likes_' + userId) || '[]');
+    return { products: saved };
+  }
+
+  if (endpoint.startsWith('/products')) {
+    return { products: MOCK_PRODUCTS, total: MOCK_PRODUCTS.length };
+  }
+
+  // --- REAL BACKEND FALLBACK ---
+  const headers = { 'Content-Type': 'application/json', ...options.headers };
+  if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
+  try {
+    const res = await Promise.race([
+      fetch(API_BASE_URL + endpoint, { ...options, headers }),
+      new Promise((_, r) => setTimeout(() => r(new Error('Request timeout')), 10000))
+    ]);
+    if (!res.ok) {
+      const e = await res.json().catch(() => ({ error: 'Request failed' }));
+      throw new Error(e.error || 'Error: ' + res.status);
+    }
+    return await res.json();
+  } catch (err) {
+    throw err;
+  }
+}
+
+// ── UTILS ──
+function sanitizeInput(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.toggle('error', isError);
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function getGreeting() {
+  const h = new Date().getHours();
+  if (h < 12) return 'Good morning';
+  if (h < 17) return 'Good afternoon';
+  return 'Good evening';
+}
+
+function recordSwipe() {
+  const today = new Date().toDateString();
+  if (lastSwipeDate !== today) { swipesToday = 0; lastSwipeDate = today; }
+  swipesToday++;
+  localStorage.setItem('sevres_swipes_today', swipesToday);
+  localStorage.setItem('sevres_swipe_date', today);
+  document.getElementById('swipesToday').textContent = swipesToday;
+  const badge = document.getElementById('streakBadge');
+  badge.style.display = 'block';
+  badge.textContent = swipesToday + ' today';
+  if (swipesToday % 5 === 0) showToast(swipesToday + ' pieces explored — your taste is taking shape');
+}
+
+// ── AUTH HELPERS ──
+function setAuth(token, user, id, email) {
+  authToken = token; username = user; userId = id;
+  localStorage.setItem('sevres_token', token);
+  localStorage.setItem('sevres_username', user);
+  localStorage.setItem('sevres_userId', id);
+  localStorage.setItem('sevres_email', email || '');
+}
+
+function clearAuth() {
+  authToken = null; username = null; userId = null;
+  ['sevres_token','sevres_username','sevres_userId','sevres_email'].forEach(k => localStorage.removeItem(k));
+}
+
+// ── ROUTING ──
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ── INTRO ──
+document.getElementById('beginBtn').onclick = () => showPage('loginPage');
+document.getElementById('introPage').onclick = (e) => {
+  if (e.target === document.getElementById('introPage') || e.target.classList.contains('intro-scroll-hint'))
+    showPage('loginPage');
+};
+
+// ── AUTH TABS ──
+document.querySelectorAll('.auth-tab').forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll('.auth-tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.auth-section').forEach(x => x.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.auth).classList.add('active');
+    resetAuthErrors();
+  };
+});
+
+function resetAuthErrors() {
+  ['loginError','registerError','phoneError','phoneSuccess'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+}
+
+// ── LOGIN ──
+document.getElementById('loginBtn').onclick = async () => {
+  const u = document.getElementById('loginEmail').value.trim();
+  const p = document.getElementById('loginPassword').value.trim();
+  const err = document.getElementById('loginError');
+  if (!u || !p) { err.textContent = 'Please complete all fields.'; err.style.display = 'block'; return; }
+  try {
+    err.style.display = 'none';
+    document.getElementById('loginBtn').disabled = true;
+    const r = await apiCall('/auth/login', { method:'POST', body: JSON.stringify({ username: u, password: p }) });
+    setAuth(r.token, r.user.username, r.user.id, r.user.email);
+    startApp();
+  } catch(e) {
+    err.textContent = e.message || 'Invalid credentials';
+    err.style.display = 'block';
+  } finally {
+    document.getElementById('loginBtn').disabled = false;
+  }
+};
+
+// Allow Enter key in login fields
+document.getElementById('loginPassword').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('loginBtn').click();
+});
+
+// ── REGISTER ──
+document.getElementById('registerBtn').onclick = async () => {
+  const name  = document.getElementById('registerName').value.trim();
+  const uname = document.getElementById('registerUsername').value.trim();
+  const email = document.getElementById('registerEmail').value.trim();
+  const pass  = document.getElementById('registerPassword').value.trim();
+  const conf  = document.getElementById('registerConfirm').value.trim();
+  const err   = document.getElementById('registerError');
+
+  if (!name || !uname || !email || !pass || !conf) { err.textContent = 'Please complete all fields.'; err.style.display = 'block'; return; }
+  if (pass !== conf) { err.textContent = 'Passwords do not match.'; err.style.display = 'block'; return; }
+  if (pass.length < 6) { err.textContent = 'Password must be at least 6 characters.'; err.style.display = 'block'; return; }
+  if (!email.includes('@')) { err.textContent = 'Please enter a valid email.'; err.style.display = 'block'; return; }
+
+  try {
+    err.style.display = 'none';
+    document.getElementById('registerBtn').disabled = true;
+    const r = await apiCall('/auth/register', { method:'POST', body: JSON.stringify({ username: uname, email, password: pass, name }) });
+    setAuth(r.token, r.user.username, r.user.id, r.user.email);
+    startApp();
+    showToast('Welcome to Sèvres, ' + uname + '. Your edit begins now.');
+  } catch(e) {
+    err.textContent = e.message || 'Registration failed';
+    err.style.display = 'block';
+  } finally {
+    document.getElementById('registerBtn').disabled = false;
+  }
+};
+
+// ── PHONE OTP ──
+document.getElementById('phoneBtn').onclick = () => {
+  resetAuthErrors();
+  document.querySelectorAll('.auth-tab').forEach(x => x.classList.remove('active'));
+  document.querySelectorAll('.auth-section').forEach(x => x.classList.remove('active'));
+  document.getElementById('phoneOtpSection').classList.add('active');
+  document.getElementById('backToLoginBtn').style.display = 'block';
+};
+document.getElementById('phoneRegisterBtn').onclick = document.getElementById('phoneBtn').onclick;
+
+document.getElementById('backToLoginBtn').onclick = () => {
+  document.getElementById('phoneOtpSection').classList.remove('active');
+  document.getElementById('backToLoginBtn').style.display = 'none';
+  document.querySelectorAll('.auth-tab')[0].click();
+};
+
+document.getElementById('sendOtpBtn').onclick = async () => {
+  const phone = document.getElementById('phoneNumber').value.trim();
+  const err   = document.getElementById('phoneError');
+  if (!phone || phone.length < 10) { err.textContent = 'Please enter a valid phone number.'; err.style.display = 'block'; return; }
+  try {
+    err.style.display = 'none';
+    document.getElementById('sendOtpBtn').disabled = true;
+    await apiCall('/auth/send-otp', { method:'POST', body: JSON.stringify({ phone }) });
+    otpAttempts = 0;
+    document.getElementById('otpInputSection').style.display = 'block';
+    document.getElementById('phoneSuccess').textContent = 'OTP sent! (Demo: use 123456)';
+    document.getElementById('phoneSuccess').style.display = 'block';
+    const container = document.getElementById('otpInputs');
+    container.innerHTML = '';
+    for (let i = 0; i < 6; i++) {
+      const inp = document.createElement('input');
+      inp.type = 'text'; inp.maxLength = '1'; inp.inputMode = 'numeric'; inp.className = 'otp-digit';
+      inp.onkeyup = (e) => {
+        if (e.key === 'Backspace') { inp.value = ''; if (i > 0) container.children[i-1].focus(); }
+        else if (/[0-9]/.test(e.key) && i < 5) container.children[i+1].focus();
+      };
+      container.appendChild(inp);
+    }
+    container.children[0].focus();
+  } catch(e) {
+    err.textContent = e.message || 'Failed to send OTP'; err.style.display = 'block';
+  } finally {
+    document.getElementById('sendOtpBtn').disabled = false;
+  }
+};
+
+document.getElementById('verifyOtpBtn').onclick = async () => {
+  const otp   = Array.from(document.getElementById('otpInputs').querySelectorAll('input')).map(i => i.value).join('');
+  const phone = document.getElementById('phoneNumber').value.trim();
+  const err   = document.getElementById('phoneError');
+  if (otp.length !== 6) { err.textContent = 'Please enter a 6-digit OTP.'; err.style.display = 'block'; return; }
+  try {
+    err.style.display = 'none';
+    document.getElementById('verifyOtpBtn').disabled = true;
+    const r = await apiCall('/auth/verify-otp', { method:'POST', body: JSON.stringify({ phone, otp }) });
+    setAuth(r.token, r.user.username, r.user.id, r.user.email);
+    startApp();
+    showToast('Phone verified! Welcome to Sèvres.');
+  } catch(e) {
+    otpAttempts++;
+    err.textContent = e.message || ('Invalid OTP. (' + (3 - otpAttempts) + ' attempts left)');
+    err.style.display = 'block';
+    if (otpAttempts >= 3) document.getElementById('verifyOtpBtn').disabled = true;
+  } finally {
+    if (otpAttempts < 3) document.getElementById('verifyOtpBtn').disabled = false;
+  }
+};
+
+document.getElementById('resendOtpBtn').onclick = () => {
+  otpAttempts = 0;
+  document.getElementById('verifyOtpBtn').disabled = false;
+  document.getElementById('sendOtpBtn').click();
+};
+
+// ── NAV TABS ──
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.nav-btn').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  };
+});
+
+// ── LOGOUT ──
+document.getElementById('logoutBtn').onclick = () => {
+  clearAuth();
+  likes = []; currentIndex = 0; products = [];
+  showPage('introPage');
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPassword').value = '';
+  document.getElementById('phoneNumber').value = '';
+};
+
+// ── PRODUCT RENDERING ──
+function renderProduct() {
+  if (!products.length) { document.getElementById('itemName').textContent = 'No more pieces for now'; return; }
+  const p = products[currentIndex % products.length];
+  const img = document.getElementById('itemImg');
+  img.classList.remove('loaded');
+  img.src = '';
+  const loader = new Image();
+  loader.onload  = () => { img.src = loader.src; img.classList.add('loaded'); };
+  loader.onerror = () => { img.src = 'https://picsum.photos/seed/' + (p._id || currentIndex) + '/460/340'; img.classList.add('loaded'); };
+  loader.src = p.imageUrl;
+  document.getElementById('itemName').textContent     = sanitizeInput(p.name);
+  document.getElementById('itemCategory').textContent = (p.category || '').toUpperCase();
+  document.getElementById('itemVibe').textContent     = sanitizeInput(p.vibe || '');
+  document.getElementById('itemPrice').textContent    = p.price ? '₹' + p.price.toLocaleString() : '';
+  document.getElementById('swipeCount').textContent   = (currentIndex % products.length + 1) + ' of ' + products.length + ' pieces';
+}
+
+function animateCard(direction, cb) {
+  const card = document.getElementById('cardFront');
+  card.classList.add(direction === 'right' ? 'is-leaving-right' : 'is-leaving-left');
+  setTimeout(() => { card.classList.remove('is-leaving-right','is-leaving-left'); cb(); }, 380);
+}
+
+// ── DRAG TO SWIPE ──
+const cardFront = document.getElementById('cardFront');
+const overlay   = document.getElementById('likeOverlay');
+const oLike     = document.getElementById('overlayLike');
+const oPass     = document.getElementById('overlayPass');
+
+cardFront.addEventListener('mousedown',  e => { dragStartX = e.clientX; isDragging = true; });
+cardFront.addEventListener('touchstart', e => { dragStartX = e.touches[0].clientX; isDragging = true; }, { passive: true });
+
+window.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  const dx = e.clientX - dragStartX;
+  cardFront.style.transform = 'rotate(' + (dx * 0.04) + 'deg) translateX(' + (dx * 0.3) + 'px)';
+  if (dx > 40)       { oLike.style.display='block'; oPass.style.display='none';  overlay.className='like-overlay show-like'; }
+  else if (dx < -40) { oPass.style.display='block'; oLike.style.display='none';  overlay.className='like-overlay show-pass'; }
+  else               { oLike.style.display='none';  oPass.style.display='none';  overlay.className='like-overlay'; }
+});
+
+window.addEventListener('touchmove', e => {
+  if (!isDragging) return;
+  const dx = e.touches[0].clientX - dragStartX;
+  cardFront.style.transform = 'rotate(' + (dx * 0.04) + 'deg) translateX(' + (dx * 0.3) + 'px)';
+  if (dx > 40)       { oLike.style.display='block'; oPass.style.display='none';  overlay.className='like-overlay show-like'; }
+  else if (dx < -40) { oPass.style.display='block'; oLike.style.display='none';  overlay.className='like-overlay show-pass'; }
+  else               { oLike.style.display='none';  oPass.style.display='none';  overlay.className='like-overlay'; }
+}, { passive: true });
+
+function finishDrag(endX) {
+  if (!isDragging) return;
+  isDragging = false;
+  const dx = endX - dragStartX;
+  cardFront.style.transform = '';
+  overlay.className = 'like-overlay';
+  oLike.style.display = 'none';
+  oPass.style.display = 'none';
+  if (dx > 80) doLike();
+  else if (dx < -80) doPass();
+}
+window.addEventListener('mouseup',    e => finishDrag(e.clientX));
+window.addEventListener('touchend',   e => finishDrag(e.changedTouches[0].clientX));
+
+// ── LIKE / PASS ──
+async function doLike() {
+  if (!products.length) return;
+  const p = products[currentIndex % products.length];
+  animateCard('right', async () => {
+    if (!likes.find(l => l._id === p._id)) {
+      likes.push(p);
+      // Persist likes per user
+      localStorage.setItem('sevres_likes_' + userId, JSON.stringify(likes));
+      updateCloset(); updateVibe(); updateAvatar();
+    }
+    showToast('Saved to your wardrobe');
+    nextProduct();
+  });
+  recordSwipe();
+}
+
+function doPass() {
+  animateCard('left', nextProduct);
+  recordSwipe();
+}
+
+document.getElementById('likeBtn').onclick = doLike;
+document.getElementById('passBtn').onclick = doPass;
+document.getElementById('shopBtn').onclick = () => {
+  if (!products.length) return;
+  const p = products[currentIndex % products.length];
+  if (p.shopLink) window.open(p.shopLink, '_blank');
+  else showToast('No shop link for this piece');
+};
+
+function nextProduct() {
+  currentIndex++;
+  renderProduct();
+}
+
+// ── WARDROBE ──
+function updateCloset() {
+  const content = document.getElementById('closetContent');
+  const empty   = document.getElementById('closetEmpty');
+  const count   = document.getElementById('closetCount');
+  if (!likes.length) { empty.style.display='block'; content.innerHTML=''; count.textContent='Your wardrobe is empty'; return; }
+  empty.style.display = 'none';
+  count.textContent = likes.length + ' piece' + (likes.length === 1 ? '' : 's') + ' saved';
+  const grid = document.createElement('div');
+  grid.className = 'closet-grid';
+  likes.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'closet-item';
+    const img = document.createElement('img');
+    img.alt = item.name; img.src = item.imageUrl;
+    img.onload  = () => img.classList.add('loaded');
+    img.onerror = () => { img.src = 'https://picsum.photos/seed/' + item._id + '/300/240'; img.classList.add('loaded'); };
+    const ov = document.createElement('div');
+    ov.className = 'closet-item-overlay';
+    ov.innerHTML = '<div class="closet-item-name">' + sanitizeInput(item.name) + '</div>';
+    div.appendChild(img); div.appendChild(ov); grid.appendChild(div);
+  });
+  content.innerHTML = '';
+  content.appendChild(grid);
+  document.getElementById('likesCount').textContent = likes.length;
+}
+
+// ── VIBE DATA ──
+const vibeNames = { beauty:'Bold & Luminous', fashion:'Quietly Refined', shoes:'Effortlessly Grounded', electronics:'Precisely Modern', wellness:'Serenely Balanced' };
+const vibeDescriptors = { beauty:'You are drawn to self-expression and the transformative power of beauty.', fashion:'Your taste is considered, sophisticated, and always intentional.', shoes:'You value comfort with character — the perfect step forward.', electronics:'You appreciate design that thinks for itself.', wellness:'You curate a life of balance, intention, and ease.' };
+const catLabels = { beauty:'Beauty', fashion:'Fashion', shoes:'Footwear', electronics:'Technology', wellness:'Wellness' };
+
+function updateVibe() {
+  const empty  = document.getElementById('vibeEmpty');
+  const loaded = document.getElementById('vibeLoaded');
+  if (!likes.length) { empty.style.display='block'; loaded.style.display='none'; return; }
+  empty.style.display = 'none'; loaded.style.display = 'block';
+  const count = {};
+  likes.forEach(i => { count[i.category] = (count[i.category] || 0) + 1; });
+  const dominant = Object.keys(count).reduce((a, b) => count[a] > count[b] ? a : b);
+  document.getElementById('dominantVibeText').textContent = vibeNames[dominant] || dominant;
+  document.getElementById('vibeDescriptor').textContent   = vibeDescriptors[dominant] || '';
+  document.getElementById('vibeStats').innerHTML = Object.entries(count).map(([cat, n]) =>
+    '<div class="stat-box"><div class="stat-number">' + n + '</div><div class="stat-label">' + (catLabels[cat] || sanitizeInput(cat)) + '</div></div>'
+  ).join('');
+}
+
+// ── STYLE TWIN ──
+const celebVibes = {
+  beauty:      { vibes:['Luminous','Avant-garde','Sensorial','Expressive'],      celebs:[{name:'Zendaya',img:'https://picsum.photos/seed/zendaya/400/500'},{name:'Rihanna',img:'https://picsum.photos/seed/rihanna/400/500'}] },
+  fashion:     { vibes:['Considered','Refined','Quietly powerful','Effortless'], celebs:[{name:'Cate Blanchett',img:'https://picsum.photos/seed/cateblanchett/400/500'},{name:'Tilda Swinton',img:'https://picsum.photos/seed/tildaswinton/400/500'}] },
+  shoes:       { vibes:['Grounded','Confident','Artisanal','Easy'],              celebs:[{name:'Alexa Chung',img:'https://picsum.photos/seed/alexachung/400/500'},{name:'Kendall Jenner',img:'https://picsum.photos/seed/kendalljenner/400/500'}] },
+  electronics: { vibes:['Intentional','Minimal','Discerning','Forward'],         celebs:[{name:'Satya Nadella',img:'https://picsum.photos/seed/satyanadella/400/500'},{name:'Tim Cook',img:'https://picsum.photos/seed/timcook/400/500'}] },
+  wellness:    { vibes:['Centred','Aware','Restorative','Pure'],                  celebs:[{name:'Jennifer Aniston',img:'https://picsum.photos/seed/jenniferaniston/400/500'},{name:'Gwyneth Paltrow',img:'https://picsum.photos/seed/gwynethpaltrow/400/500'}] }
+};
+
+function updateAvatar() {
+  const content = document.getElementById('avatarContent');
+  if (!likes.length) { content.innerHTML = '<p style="font-size:13px;letter-spacing:1.5px;color:#aaa;text-transform:uppercase;font-weight:300">Save pieces to reveal your match</p>'; return; }
+  const count = {};
+  likes.forEach(i => { count[i.category] = (count[i.category] || 0) + 1; });
+  const dominant = Object.keys(count).reduce((a, b) => count[a] > count[b] ? a : b);
+  const match = celebVibes[dominant] || celebVibes.fashion;
+  const celeb = match.celebs[Math.floor(Math.random() * match.celebs.length)];
+  content.innerHTML = `
+    <img class="celebrity-image loaded" src="${celeb.img}" alt="${sanitizeInput(celeb.name)}">
+    <div class="celebrity-name">${sanitizeInput(celeb.name)}</div>
+    <div class="celebrity-subtitle">Your style twin</div>
+    <div class="vibe-divider"></div>
+    <div class="vibe-list">${match.vibes.map(v => '<span class="vibe-tag">' + sanitizeInput(v) + '</span>').join('')}</div>
+  `;
+}
+
+// ── LOAD DATA ──
+async function loadUserLikes() {
+  try {
+    const r = await apiCall('/likes/user/' + userId);
+    likes = r.products || [];
+    updateCloset(); updateVibe(); updateAvatar();
+  } catch(e) { console.error('Failed to load likes:', e); }
+}
+
+async function loadProducts() {
+  try {
+    document.getElementById('swipeCount').textContent = 'Loading your edit…';
+    const r = await apiCall('/products?limit=20&page=0');
+    products = r.products || [];
+    currentIndex = 0;
+    if (!products.length) products = MOCK_PRODUCTS;
+    renderProduct();
+  } catch(e) {
+    products = MOCK_PRODUCTS;
+    currentIndex = 0;
+    renderProduct();
+  }
+}
+
+// ── START APP ──
+async function startApp() {
+  showPage('app');
+  const initial = username ? username.charAt(0).toUpperCase() : 'S';
+  document.getElementById('profileInitial').textContent  = initial;
+  document.getElementById('profileName').textContent     = sanitizeInput(username) || 'Curator';
+  document.getElementById('headerGreeting').textContent  = getGreeting() + ', ' + sanitizeInput(username);
+  document.getElementById('memberSince').textContent     = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+  document.getElementById('swipesToday').textContent     = swipesToday;
+  if (swipesToday > 0) { const b = document.getElementById('streakBadge'); b.style.display='block'; b.textContent=swipesToday+' today'; }
+  await loadUserLikes();
+  await loadProducts();
+}
+
+// ── INIT ──
+if (authToken && userId) startApp();
+</script>
+</body>
+</html>
