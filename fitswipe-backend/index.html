@@ -499,22 +499,8 @@ function saveDemoUsers(u) {
   localStorage.setItem('sevres_users', JSON.stringify(u));
 }
 
-// ── MOCK PRODUCTS ──
-const MOCK_PRODUCTS = [
-  { _id:'1', name:'Classic White Linen Shirt',    category:'fashion',   price:1299,  imageUrl:'https://picsum.photos/seed/shirt1/460/340',    vibe:'Effortlessly elegant'  },
-  { _id:'2', name:'Minimal Gold Hoop Earrings',   category:'beauty',    price:799,   imageUrl:'https://picsum.photos/seed/earring1/460/340',  vibe:'Refined & subtle'      },
-  { _id:'3', name:'Premium Skincare Set',          category:'wellness',  price:2499,  imageUrl:'https://picsum.photos/seed/skincare1/460/340', vibe:'Self-care ritual'      },
-  { _id:'4', name:'Leather Minimalist Loafers',   category:'shoes',     price:3999,  imageUrl:'https://picsum.photos/seed/loafers1/460/340',  vibe:'Timeless & grounded'   },
-  { _id:'5', name:'Black Oversized Blazer',        category:'fashion',   price:4999,  imageUrl:'https://picsum.photos/seed/blazer1/460/340',   vibe:'Power & precision'     },
-  { _id:'6', name:'Silk Slip Dress',               category:'fashion',   price:3499,  imageUrl:'https://picsum.photos/seed/dress1/460/340',    vibe:'Quiet luxury'          },
-  { _id:'7', name:'Leather Crossbody Bag',         category:'fashion',   price:5999,  imageUrl:'https://picsum.photos/seed/bag1/460/340',      vibe:'Understated elegance'  },
-  { _id:'8', name:'Cashmere Turtleneck',           category:'fashion',   price:4299,  imageUrl:'https://picsum.photos/seed/turtle1/460/340',   vibe:'Cocooned in comfort'   },
-  { _id:'9', name:'Retinol Night Serum',           category:'beauty',    price:1899,  imageUrl:'https://picsum.photos/seed/serum1/460/340',    vibe:'Renewal overnight'     },
-  { _id:'10',name:'Suede Chelsea Boots',           category:'shoes',     price:6499,  imageUrl:'https://picsum.photos/seed/boots1/460/340',    vibe:'Grounded authority'    }
-];
-
-// ── API (demo-first, falls back to real backend) ──
-const API_BASE_URL = 'http://localhost:5000/api';
+// ── API ──
+const API_BASE_URL = 'https://fashionicon-kvky.onrender.com/api';
 
 async function apiCall(endpoint, options = {}) {
   // --- DEMO AUTH INTERCEPTS ---
@@ -558,11 +544,7 @@ async function apiCall(endpoint, options = {}) {
     return { products: saved };
   }
 
-  if (endpoint.startsWith('/products')) {
-    return { products: MOCK_PRODUCTS, total: MOCK_PRODUCTS.length };
-  }
-
-  // --- REAL BACKEND FALLBACK ---
+  // --- REAL BACKEND FOR PRODUCTS ---
   const headers = { 'Content-Type': 'application/json', ...options.headers };
   if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
   try {
@@ -680,7 +662,6 @@ document.getElementById('loginBtn').onclick = async () => {
   }
 };
 
-// Allow Enter key in login fields
 document.getElementById('loginPassword').addEventListener('keydown', e => {
   if (e.key === 'Enter') document.getElementById('loginBtn').click();
 });
@@ -881,7 +862,6 @@ async function doLike() {
   animateCard('right', async () => {
     if (!likes.find(l => l._id === p._id)) {
       likes.push(p);
-      // Persist likes per user
       localStorage.setItem('sevres_likes_' + userId, JSON.stringify(likes));
       updateCloset(); updateVibe(); updateAvatar();
     }
@@ -998,12 +978,10 @@ async function loadProducts() {
     const r = await apiCall('/products?limit=20&page=0');
     products = r.products || [];
     currentIndex = 0;
-    if (!products.length) products = MOCK_PRODUCTS;
     renderProduct();
   } catch(e) {
-    products = MOCK_PRODUCTS;
-    currentIndex = 0;
-    renderProduct();
+    console.error('Failed to load products:', e);
+    document.getElementById('itemName').textContent = 'Could not load products';
   }
 }
 
