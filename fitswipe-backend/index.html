@@ -491,60 +491,10 @@ let isDragging = false;
 let dragStartX = 0;
 let otpAttempts = 0;
 
-// ── DEMO USER STORE (localStorage) ──
-function getDemoUsers() {
-  return JSON.parse(localStorage.getItem('sevres_users') || '{}');
-}
-function saveDemoUsers(u) {
-  localStorage.setItem('sevres_users', JSON.stringify(u));
-}
-
 // ── API ──
 const API_BASE_URL = 'https://fashionicon-kvky.onrender.com/api';
 
 async function apiCall(endpoint, options = {}) {
-  // --- DEMO AUTH INTERCEPTS ---
-  if (endpoint === '/auth/login') {
-    const { username: u, password: p } = JSON.parse(options.body);
-    const users = getDemoUsers();
-    const user = users[u];
-    if (!user || user.password !== p) throw new Error('Invalid username or password');
-    return { token: 'demo-token', user: { username: u, id: u, email: user.email || '' } };
-  }
-
-  if (endpoint === '/auth/register') {
-    const { username: u, email, password, name } = JSON.parse(options.body);
-    const users = getDemoUsers();
-    if (users[u]) throw new Error('Username already taken');
-    users[u] = { password, email, name };
-    saveDemoUsers(users);
-    return { token: 'demo-token', user: { username: u, id: u, email } };
-  }
-
-  if (endpoint === '/auth/send-otp') {
-    return { ok: true };
-  }
-
-  if (endpoint === '/auth/verify-otp') {
-    const { otp } = JSON.parse(options.body);
-    if (otp !== '123456') throw new Error('Invalid OTP. Demo code is 123456');
-    const phone = document.getElementById('phoneNumber').value.trim();
-    const u = 'user_' + phone.replace(/\D/g,'').slice(-6);
-    const users = getDemoUsers();
-    if (!users[u]) { users[u] = { password: '', email: '' }; saveDemoUsers(users); }
-    return { token: 'demo-token', user: { username: u, id: u, email: '' } };
-  }
-
-  if (endpoint === '/likes' && options.method === 'POST') {
-    return { ok: true };
-  }
-
-  if (endpoint.startsWith('/likes/user/')) {
-    const saved = JSON.parse(localStorage.getItem('sevres_likes_' + userId) || '[]');
-    return { products: saved };
-  }
-
-  // --- REAL BACKEND FOR PRODUCTS ---
   const headers = { 'Content-Type': 'application/json', ...options.headers };
   if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
   try {
@@ -721,7 +671,7 @@ document.getElementById('sendOtpBtn').onclick = async () => {
     await apiCall('/auth/send-otp', { method:'POST', body: JSON.stringify({ phone }) });
     otpAttempts = 0;
     document.getElementById('otpInputSection').style.display = 'block';
-    document.getElementById('phoneSuccess').textContent = 'OTP sent! (Demo: use 123456)';
+    document.getElementById('phoneSuccess').textContent = 'OTP sent!';
     document.getElementById('phoneSuccess').style.display = 'block';
     const container = document.getElementById('otpInputs');
     container.innerHTML = '';
@@ -861,9 +811,17 @@ async function doLike() {
   const p = products[currentIndex % products.length];
   animateCard('right', async () => {
     if (!likes.find(l => l._id === p._id)) {
-      likes.push(p);
-      localStorage.setItem('sevres_likes_' + userId, JSON.stringify(likes));
-      updateCloset(); updateVibe(); updateAvatar();
+      try {
+        await apiCall('/likes', {
+          method: 'POST',
+          body: JSON.stringify({ productId: p._id })
+        });
+        likes.push(p);
+        updateCloset(); updateVibe(); updateAvatar();
+      } catch(e) {
+        console.error('Failed to save like:', e);
+        showToast('Could not save piece', true);
+      }
     }
     showToast('Saved to your wardrobe');
     nextProduct();
