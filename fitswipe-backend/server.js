@@ -20,6 +20,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/products', require('./routes/products'));
 app.use('/api/likes', require('./routes/likes'));
 app.use('/api/users', require('./routes/users'));
+app.use('/api/recommendations', require('./routes/recommendations'));
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'Server running', timestamp: new Date() });
